@@ -16,6 +16,7 @@ namespace ObrasSanitarias.Controladores
                 Console.Clear();
                 Console.WriteLine("## Obras Sanitarias ##");
                 Console.WriteLine("1- Licitaciones.");
+                Console.WriteLine("2- Proveedores.");
                 Console.WriteLine("0- Salir.");
                 int op = Convert.ToInt32(Console.ReadLine());
 
@@ -24,6 +25,7 @@ namespace ObrasSanitarias.Controladores
                     default: { Console.WriteLine("Opcion incorrecta"); Console.ReadKey(); } break;
                     case 0: { salir = false; }break;
                     case 1: { MenuLicitaciones(); }break;
+                    case 2: { MenuProveedores(); }break;
 
                 }
 
@@ -51,8 +53,29 @@ namespace ObrasSanitarias.Controladores
                     case 2: { ctrlLicitaciones.Imprimir(); } break;
 
                 }
+            } while (salir == true);
+        }
+        private void MenuProveedores()
+        {
+            Console.Clear();
+            ControlProveedores ctrlProveedores = new ControlProveedores();
+            bool salir = true;
+            do
+            {
+                Console.WriteLine("## Proveedores ##");
+                Console.WriteLine("1- Agregar Proveedor.");
+                Console.WriteLine("2- Mostrar Proveedores.");
+                Console.WriteLine("0- Salir.");
+                int op = Convert.ToInt32(Console.ReadLine());
 
+                switch (op)
+                {
+                    default: { Console.WriteLine("Opcion incorrecta"); Console.ReadKey(); } break;
+                    case 0: { salir = false; } break;
+                    case 1: { ctrlProveedores.Agregar(); } break;
+                    case 2: { ctrlProveedores.Imprimir(); } break;
 
+                }
             } while (salir == true);
         }
     }
