@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="BaseDeDatos\Conexiones.cs" />
     <Compile Include="BaseDeDatos\Licitaciones.cs" />
+    <Compile Include="BaseDeDatos\Propuestas.cs" />
     <Compile Include="BaseDeDatos\Proveedores.cs" />
     <Compile Include="Controladores\ControlLicitaciones.cs" />
     <Compile Include="Controladores\ControlMenu.cs" />
@@ -54,6 +55,7 @@
     <Compile Include="Interfaces\IAgregarListar.cs" />
     <Compile Include="Interfaces\IExiste.cs" />
     <Compile Include="Modelos\Licitacion.cs" />
+    <Compile Include="Modelos\Propuesta.cs" />
     <Compile Include="Modelos\Proveedor.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
