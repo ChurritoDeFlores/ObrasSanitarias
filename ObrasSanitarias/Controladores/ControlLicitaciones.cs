@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ObrasSanitarias.Controladores
 {
-    internal class ControlLicitaciones
+    internal class ControlLicitaciones : IDisposable
     {
         Licitaciones licitaciones = new Licitaciones();
         ControlTipeo ctrlTipeo = new ControlTipeo();
@@ -44,12 +44,25 @@ namespace ObrasSanitarias.Controladores
             };
             licitaciones.Agregar(licitacion);
         }
+
+        public void Dispose()
+        {
+            throw new NotImplementedException();
+        }
+
         public void Imprimir()
         {
             Console.Clear();
             Impresion imprimir = new Impresion();
-            Console.WriteLine(String.Format("{0,-30}||{1,-32}||{2,-30}||{3,-30}||{4,-30}", "Tipo de Obra", "Presupuesto Estimado", "Ubicacion", "Fecha Limite", "Estado"));
-            Console.WriteLine(imprimir.GenerarImpresion(licitaciones.Listar()));
+            Console.WriteLine(String.Format("{0,-30}||{1,-32}||{2,-30}||{3,-30}||{4,-15}", "Tipo de Obra", "Presupuesto Estimado", "Ubicacion", "Fecha Limite", "Estado"));
+            Console.WriteLine(imprimir.GenerarImpresion(licitaciones.ListarConID()));
+        }
+        public void ImprimirConID()
+        {
+            Console.Clear();
+            Impresion imprimir = new Impresion();
+            Console.WriteLine(String.Format("{0,-6}||{1,-32}||{2,-30}||{3,-30}||{4,-30}||{5,-15}", "ID", "Tipo de Obra", "Presupuesto Estimado", "Ubicacion", "Fecha Limite", "Estado"));
+            Console.WriteLine(imprimir.GenerarImpresion(licitaciones.ListarConID()));
         }
         
     }

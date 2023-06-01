@@ -8,7 +8,7 @@ namespace ObrasSanitarias.Modelos
 {
     internal class Licitacion
     {
-        public int ID { get; }
+        public int ID { get; set; }
         public string tipoDeObra { get; set; }
         public double presupuestoEstimado { get; set; }
         public string ubicacion { get; set; }
@@ -34,7 +34,11 @@ namespace ObrasSanitarias.Modelos
         }
         public override string ToString()
         {
-            return String.Format("{0,-30}||$ {1,-30}||{2,-30}||{3,-30}||{4,-30}", tipoDeObra, presupuestoEstimado, ubicacion, fechaLimite, estado);
+            return String.Format("{0,-30}||$ {1,-30}||{2,-30}||{3,-30}||{4,-15}", tipoDeObra, presupuestoEstimado, ubicacion, fechaLimite, estado);
+        }
+        public string ToStringConID()
+        {
+            return String.Format("{0,-6}||$ {1,-30}||{2,-30}||{3,-30}||{4,-30}||{5,-30}", ID, tipoDeObra, presupuestoEstimado, ubicacion, fechaLimite, estado);
         }
     }
 }

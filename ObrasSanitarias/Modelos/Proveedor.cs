@@ -8,7 +8,7 @@ namespace ObrasSanitarias.Modelos
 {
     internal class Proveedor
     {
-        public int ID { get; }
+        public int ID { get; set; }
         public string nombre { get; set; }
         public string direccion { get; set;}
         public string email { get; set;}
@@ -30,6 +30,10 @@ namespace ObrasSanitarias.Modelos
         public override string ToString()
         {
             return String.Format("{0,-30}||{1,-30}||{2,-30}", nombre, direccion, email);
+        }
+        public string ToStringConID()
+        {
+            return String.Format("{0,-6}||{1,-30}||{2,-30}||{3,-30}", ID, nombre, direccion, email);
         }
     }
 }

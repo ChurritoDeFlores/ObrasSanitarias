@@ -12,7 +12,8 @@ namespace ObrasSanitarias.BaseDeDatos
 {
     internal class Propuestas : IAgregarListar<Propuesta>
     {
-        public void Agregar(Propuesta p)
+        #region Metodos Publicos
+        public void Agregar(int IDLicitacion, int IDProveedor, string fechaPresentacion, double monto)
         {
             using (Conexiones conexiones = new Conexiones())
             {
@@ -21,10 +22,10 @@ namespace ObrasSanitarias.BaseDeDatos
                     conexiones.Abrir();
                     using (SqlCommand cmd = new SqlCommand(SQLquery_INSERT(), conexiones.Conexion()))
                     {
-                        cmd.Parameters.Add("@ID_Licitaciones", SqlDbType.Int).Value = p.licitacion.ID;
-                        cmd.Parameters.Add("@ID_Proveedor", SqlDbType.Int).Value = p.proveedor.ID;
-                        cmd.Parameters.Add("@FechaPresentacion", SqlDbType.Int).Value = p.fechaPresentacion;
-                        cmd.Parameters.Add("@Monto", SqlDbType.Int).Value = p.monto;
+                        cmd.Parameters.Add("@ID_Licitaciones", SqlDbType.Int).Value = IDLicitacion;
+                        cmd.Parameters.Add("@ID_Proveedor", SqlDbType.Int).Value = IDProveedor;
+                        cmd.Parameters.Add("@FechaPresentacion", SqlDbType.VarChar).Value = fechaPresentacion;
+                        cmd.Parameters.Add("@Monto", SqlDbType.Decimal).Value = monto;
                         cmd.ExecuteNonQuery();
                     }
                     Console.Clear();
@@ -40,9 +41,9 @@ namespace ObrasSanitarias.BaseDeDatos
             }
         }
 
-        private string SQLquery_INSERT()
+        public void Agregar(Propuesta t)
         {
-            return "INSERT INTO Propuestas Values(@ID_Licitaciones,@ID_Proveedor,@FechaPresentacion,@Monto)";
+            throw new NotImplementedException();
         }
 
         public List<Propuesta> Listar()
@@ -73,7 +74,13 @@ namespace ObrasSanitarias.BaseDeDatos
                 return propuestas;
             }
         }
+        #endregion
 
+        #region Metodos Privados
+        private string SQLquery_INSERT()
+        {
+            return "INSERT INTO Propuestas Values(@ID_Licitaciones,@ID_Proveedor,@FechaPresentacion,@Monto)";
+        }
         private string SQLquery_SELECT()
         {
             return @"SELECT
@@ -92,5 +99,6 @@ namespace ObrasSanitarias.BaseDeDatos
                    INNER JOIN Licitaciones AS l ON l.ID = prop.ID
                    INNER JOIN Proveedores AS p ON p.ID = prop.ID";
         }
+        #endregion
     }
 }

@@ -93,5 +93,34 @@ namespace ObrasSanitarias.BaseDeDatos
                 return proveedores;
             }
         }
+        public List<Proveedor> ListarConID()
+        {
+            List<Proveedor> proveedores = new List<Proveedor>();
+            using (Conexiones conexiones = new Conexiones())
+            {
+                conexiones.Abrir();
+                string query = "SELECT * FROM Proveedores";
+                using (SqlCommand cmd = new SqlCommand(query, conexiones.Conexion()))
+                {
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            Proveedor proveedor = new Proveedor
+                            {
+                                // reader.GetTipo(indice) => me da el dato que hay en la columna en la posicion indice.
+                                // reader.GetOrdinal("Nombre de columna") => me da el valor del indice, donde la columna se llama "Nombre de columna".
+                                ID = reader.GetInt32(reader.GetOrdinal("ID")),
+                                nombre = reader.GetString(reader.GetOrdinal("Nombre")),
+                                direccion = reader.GetString(reader.GetOrdinal("Direccion")),
+                                email = reader.GetString(reader.GetOrdinal("Email")),
+                            };
+                            proveedores.Add(proveedor);
+                        }
+                    }
+                }
+                return proveedores;
+            }
+        }
     }
 }

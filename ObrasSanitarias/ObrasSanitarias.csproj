@@ -49,6 +49,7 @@
     <Compile Include="BaseDeDatos\Proveedores.cs" />
     <Compile Include="Controladores\ControlLicitaciones.cs" />
     <Compile Include="Controladores\ControlMenu.cs" />
+    <Compile Include="Controladores\ControlPropuestas.cs" />
     <Compile Include="Controladores\ControlProveedores.cs" />
     <Compile Include="Controladores\ControlTipeo.cs" />
     <Compile Include="Controladores\Impresion.cs" />

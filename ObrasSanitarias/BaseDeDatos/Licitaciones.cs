@@ -82,5 +82,34 @@ namespace ObrasSanitarias.BaseDeDatos
             }
             return licitaciones;
         }
+        public List<Licitacion> ListarConID()
+        {
+            List<Licitacion> licitaciones = new List<Licitacion>();
+            using (Conexiones conexiones = new Conexiones())
+            {
+                conexiones.Abrir();
+                string query = "SELECT * FROM Licitaciones";
+                using (SqlCommand cmd = new SqlCommand(query, conexiones.Conexion()))
+                {
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            Licitacion licitacion = new Licitacion
+                            {
+                                ID = reader.GetInt32(reader.GetOrdinal("ID")),
+                                tipoDeObra = reader.GetString(reader.GetOrdinal("TipoDeObra")),
+                                presupuestoEstimado = reader.GetDouble(reader.GetOrdinal("PresupuestoEstimado")),
+                                ubicacion = reader.GetString(reader.GetOrdinal("Ubicacion")),
+                                fechaLimite = reader.GetString(reader.GetOrdinal("FechaLimite")),
+                                estado = reader.GetString(reader.GetOrdinal("Estado")),
+                            };
+                            licitaciones.Add(licitacion);
+                        }
+                    }
+                }
+            }
+            return licitaciones;
+        }
     }
 }

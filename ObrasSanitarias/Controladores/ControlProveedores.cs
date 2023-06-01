@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ObrasSanitarias.Controladores
 {
-    internal class ControlProveedores
+    internal class ControlProveedores : IDisposable
     {
         ControlTipeo ctrlTipeo = new ControlTipeo();
         Proveedores proveedores = new Proveedores();
@@ -36,12 +36,26 @@ namespace ObrasSanitarias.Controladores
                 Console.WriteLine("Proveedor Agregado");
             }  
         }
+
+        public void Dispose()
+        {
+            throw new NotImplementedException();
+        }
+
         public void Imprimir()
         {
             Console.Clear();
             Impresion imprimir = new Impresion();
             Console.WriteLine(String.Format("{0,-30}||{1,-30}||{2,-30}", "Nombre", "Direccion", "Email"));
             Console.WriteLine(imprimir.GenerarImpresion(proveedores.Listar()));
+        }
+
+        public void ImprimirConID()
+        {
+            Console.Clear();
+            Impresion imprimir = new Impresion();
+            Console.WriteLine(String.Format("{0,-6}||{1,-30}||{2,-30}||{3,-30}", "ID", "Nombre", "Direccion", "Email"));
+            Console.WriteLine(imprimir.GenerarImpresion(proveedores.ListarConID()));
         }
     }
 }

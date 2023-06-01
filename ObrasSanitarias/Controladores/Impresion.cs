@@ -17,5 +17,14 @@ namespace ObrasSanitarias.Controladores
             }
             return listaString.ToString();
         }
+        public string GenerarImpresionConID<T>(List<T>lista)
+        {
+            StringBuilder listaString = new StringBuilder();
+            foreach (var item in lista)
+            {
+                listaString.AppendLine(item.ToStringConID());
+            }
+            return listaString.ToString();
+        }
     }
 }

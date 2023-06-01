@@ -46,6 +46,11 @@ namespace ObrasSanitarias.Modelos
             this.licitacion = licitacion;
             this.proveedor = proveedor;
         }
+        public override string ToString()
+        {
+            string formato = "{0,-20}||$ {1,-20}||{2,-20}||{3,-20}||{4,-15}||{5,-20}||{6,-20}||{7,-20}||{8,-20}||{9,-20}";
+            return String.Format(formato, licitacion.tipoDeObra, licitacion.presupuestoEstimado, licitacion.ubicacion, licitacion.fechaLimite, licitacion.estado, proveedor.nombre, proveedor.direccion, proveedor.email, fechaPresentacion, monto);
+        }
 
     }
 }
