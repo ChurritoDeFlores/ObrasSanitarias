@@ -62,6 +62,7 @@ namespace ObrasSanitarias.BaseDeDatos
                             {
                                 // nreader.GetTipo(indice) => me da el dato que hay en la columna en la posicion indice.
                                 // reader.GetOrdinal("Nombre de columna") => me da el valor del indice, donde la columna se llama "Nombre de columna".
+                                ID = reader.GetInt32(reader.GetOrdinal("ID")),
                                 licitacion = new Licitacion(reader.GetString(reader.GetOrdinal("TipoDeObra")), reader.GetDouble(reader.GetOrdinal("PresupuestoEstimado")), reader.GetString(reader.GetOrdinal("Ubicacion")), reader.GetString(reader.GetOrdinal("FechaLimite")), reader.GetString(reader.GetOrdinal("Estado"))),
                                 proveedor = new Proveedor(reader.GetString(reader.GetOrdinal("Nombre")), reader.GetString(reader.GetOrdinal("Direccion")), reader.GetString(reader.GetOrdinal("Email"))),
                                 fechaPresentacion = reader.GetString(reader.GetOrdinal("FechaPresentacion")),
@@ -84,6 +85,7 @@ namespace ObrasSanitarias.BaseDeDatos
         private string SQLquery_SELECT()
         {
             return @"SELECT
+                   prop.ID,
                    l.TipoDeObra,
                    l.PresupuestoEstimado,
                    l.Ubicacion,

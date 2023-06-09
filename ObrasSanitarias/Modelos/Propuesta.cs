@@ -47,9 +47,25 @@ namespace ObrasSanitarias.Modelos
             this.proveedor = proveedor;
         }
         public override string ToString()
-        {
-            string formato = "{0,-20}||$ {1,-20}||{2,-20}||{3,-20}||{4,-15}||{5,-20}||{6,-20}||{7,-20}||{8,-20}||{9,-20}";
-            return String.Format(formato, licitacion.tipoDeObra, licitacion.presupuestoEstimado, licitacion.ubicacion, licitacion.fechaLimite, licitacion.estado, proveedor.nombre, proveedor.direccion, proveedor.email, fechaPresentacion, monto);
+        {   //   ═  ║ ╔  ╗  ╝ ╚       <---- Caracteres para hacer el marco
+            string formato =    "╔═════════════════════════════════════════╗\n" +
+                                "║ID: {0,37}║\n" +
+                                "║Licitacion:                              ║\n" +
+                                "║\tTipo de obra: {1,20}║\n" +
+                                "║\tPresupuesto estimado:$ {2,11}║\n" +
+                                "║\tUbicacion: {3,23}║\n" +
+                                "║\tFecha limite: {4,20}║\n" +
+                                "║\tEstado: {5,26}║\n" +
+                                "║Proveedor:                               ║\n" +
+                                "║\tNombre: {6,26}║\n" +
+                                "║\tDireccion: {7,23}║\n" +
+                                "║\tEmail: {8,27}║\n" +
+                                "║Propuesta:                               ║\n" +
+                                "║\tFecha de presentacion: {9,11}║\n" +
+                                "║\tMonto:$ {10,26}║\n" +
+                                "╚═════════════════════════════════════════╝\n";
+
+            return String.Format(formato,ID, licitacion.tipoDeObra, licitacion.presupuestoEstimado, licitacion.ubicacion, licitacion.fechaLimite, licitacion.estado, proveedor.nombre, proveedor.direccion, proveedor.email, fechaPresentacion, monto);
         }
 
     }

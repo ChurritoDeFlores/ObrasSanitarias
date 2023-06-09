@@ -27,8 +27,7 @@ namespace ObrasSanitarias.BaseDeDatos
                 try
                 {
                     conexiones.Abrir();
-                    string query = "INSERT INTO Licitaciones VALUES (@tipoDeObra,@presupuestoEstimado,@ubicacion,@fechaLimite,@estado)";
-                    using (SqlCommand cmd = new SqlCommand(query, conexiones.Conexion()))
+                    using (SqlCommand cmd = new SqlCommand(Sql_Agregar(), conexiones.Conexion()))
                     {
                         // El uso de .Add, ayuda a la conversion de datos y evita errores con éste, en comparacion con el metodo .AddWithValues
                         cmd.Parameters.Add("@tipoDeObra",SqlDbType.VarChar).Value=l.tipoDeObra;
@@ -51,45 +50,37 @@ namespace ObrasSanitarias.BaseDeDatos
                 }
             }
         }
-
+        public void Eliminar(int id_l)
+        {
+            using (Conexiones conexiones = new Conexiones())
+            {
+                try
+                {
+                    conexiones.Abrir();
+                    using (SqlCommand cmd = new SqlCommand(Sql_Eliminar(), conexiones.Conexion()))
+                    {
+                        cmd.Parameters.Add("@id",SqlDbType.Int).Value=id_l;
+                        cmd.ExecuteNonQuery();
+                    }
+                    conexiones.Cerrar();
+                    Console.Clear();
+                    Console.WriteLine("Licitacion Eliminada");
+                }
+                catch (Exception ex)
+                {
+                    Console.Clear();
+                    Console.WriteLine(ex.ToString());
+                }
+            }
+        }
         public List<Licitacion> Listar()
         {
             List<Licitacion> licitaciones = new List<Licitacion>();
             using (Conexiones conexiones = new Conexiones())
             {
                 conexiones.Abrir();
-                string query = "SELECT TipoDeObra,PresupuestoEstimado,Ubicacion,FechaLimite,Estado FROM Licitaciones";
-                using (SqlCommand cmd = new SqlCommand(query, conexiones.Conexion()))
-                {
-                    using (SqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            Licitacion licitacion = new Licitacion
-                            {
-                                // reader.GetTipo(indice) => me da el dato que hay en la columna en la posicion indice.
-                                // reader.GetOrdinal("Nombre de columna") => me da el valor del indice, donde la columna se llama "Nombre de columna".
-                                tipoDeObra = reader.GetString(reader.GetOrdinal("TipoDeObra")),
-                                presupuestoEstimado = reader.GetDouble(reader.GetOrdinal("PresupuestoEstimado")),
-                                ubicacion = reader.GetString(reader.GetOrdinal("Ubicacion")),
-                                fechaLimite = reader.GetString(reader.GetOrdinal("FechaLimite")),
-                                estado = reader.GetString(reader.GetOrdinal("Estado")),
-                            };
-                            licitaciones.Add(licitacion);
-                        }
-                    }
-                }
-            }
-            return licitaciones;
-        }
-        public List<Licitacion> ListarConID()
-        {
-            List<Licitacion> licitaciones = new List<Licitacion>();
-            using (Conexiones conexiones = new Conexiones())
-            {
-                conexiones.Abrir();
-                string query = "SELECT * FROM Licitaciones";
-                using (SqlCommand cmd = new SqlCommand(query, conexiones.Conexion()))
+
+                using (SqlCommand cmd = new SqlCommand(Sql_Listar(), conexiones.Conexion()))
                 {
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
@@ -111,5 +102,48 @@ namespace ObrasSanitarias.BaseDeDatos
             }
             return licitaciones;
         }
+        internal void EditarObra(int id, string obra)
+        {
+            using (Conexiones conexiones = new Conexiones())
+            {
+                try
+                {
+                    conexiones.Abrir();
+                    using (SqlCommand cmd = new SqlCommand(Sql_EditarObra(), conexiones.Conexion()))
+                    {
+                        cmd.Parameters.Add("@id", SqlDbType.Int).Value = id;
+                        cmd.Parameters.Add("@obra", SqlDbType.VarChar).Value = obra;
+                        cmd.ExecuteNonQuery();
+                    }
+                    conexiones.Cerrar();
+                    Console.Clear();
+                }
+                catch (Exception ex)
+                {
+                    conexiones.Cerrar();
+                    Console.Clear();
+                    Console.WriteLine(ex.ToString());
+                    Console.ReadKey();
+                }
+            }
+        }
+        #region Querys
+        private string Sql_Agregar()
+        {
+            return "INSERT INTO Licitaciones VALUES (@tipoDeObra,@presupuestoEstimado,@ubicacion,@fechaLimite,@estado)";
+        }
+        private string Sql_Listar()
+        {
+            return "SELECT * FROM Licitaciones";
+        }
+        private string Sql_EditarObra()
+        {
+            return "UPDATE Licitaciones SET TipoDeObra = @obra WHERE ID = @id";
+        }
+        private string Sql_Eliminar()
+        {
+            return "DELETE FROM Licitaciones WHERE ID=@id";
+        }
+        #endregion
     }
 }

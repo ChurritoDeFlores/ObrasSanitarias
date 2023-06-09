@@ -44,6 +44,8 @@ namespace ObrasSanitarias.Controladores
                 Console.WriteLine("## Licitaciones ##");
                 Console.WriteLine("1- Agregar Licitacion.");
                 Console.WriteLine("2- Mostrar Licitaciones.");
+                Console.WriteLine("3- Eliminar Licitacion.");
+                Console.WriteLine("4- Modificar Licitacion. (Tipo de obra)");
                 Console.WriteLine("0- Salir.");
                 int op = Convert.ToInt32(Console.ReadLine());
 
@@ -53,6 +55,8 @@ namespace ObrasSanitarias.Controladores
                     case 0: { salir = false; } break;
                     case 1: { ctrlLicitaciones.Agregar(); } break;
                     case 2: { ctrlLicitaciones.Imprimir(); } break;
+                    case 3: { ctrlLicitaciones.Eliminar(); } break;
+                    case 4: { ctrlLicitaciones.EditarObra(); } break;
 
                 }
             } while (salir == true);
@@ -67,6 +71,8 @@ namespace ObrasSanitarias.Controladores
                 Console.WriteLine("## Proveedores ##");
                 Console.WriteLine("1- Agregar Proveedor.");
                 Console.WriteLine("2- Mostrar Proveedores.");
+                Console.WriteLine("3- Eliminar Proveedor.");
+                Console.WriteLine("4- Modificar Proveedor. (Nombre)");
                 Console.WriteLine("0- Salir.");
                 int op = Convert.ToInt32(Console.ReadLine());
 
@@ -76,6 +82,8 @@ namespace ObrasSanitarias.Controladores
                     case 0: { salir = false; } break;
                     case 1: { ctrlProveedores.Agregar(); } break;
                     case 2: { ctrlProveedores.Imprimir(); } break;
+                    case 3: { ctrlProveedores.Eliminar(); } break;
+                    case 4: { ctrlProveedores.EditarNombre(); } break;
 
                 }
             } while (salir == true);

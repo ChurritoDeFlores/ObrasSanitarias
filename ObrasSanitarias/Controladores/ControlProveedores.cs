@@ -34,28 +34,42 @@ namespace ObrasSanitarias.Controladores
                 proveedores.Agregar(proveedor);
                 Console.Clear();
                 Console.WriteLine("Proveedor Agregado");
-            }  
+            }
+            Console.ReadKey();
         }
-
+        public void Eliminar()
+        {
+            Console.Clear();
+            Imprimir();
+            Console.WriteLine("################################################");
+            Console.Write("Ingrese el ID del proveedor a borrar: ");
+            int id = Convert.ToInt32(Console.ReadLine());
+            proveedores.Eliminar(id);
+            Console.ReadKey();
+        }
+        public void EditarNombre()
+        {
+            Console.Clear();
+            Imprimir();
+            Console.WriteLine("################################################");
+            Console.Write("Ingrese el ID del proveedor a modificar: ");
+            int id = Convert.ToInt32(Console.ReadLine());
+            Console.Write("Ingrese el nombre del proveedor: ");
+            string nombre = Console.ReadLine();
+            proveedores.EditarNombre(id, nombre);
+            Console.ReadKey();
+        }
         public void Dispose()
         {
-            throw new NotImplementedException();
+            this.Dispose();
         }
 
         public void Imprimir()
         {
             Console.Clear();
             Impresion imprimir = new Impresion();
-            Console.WriteLine(String.Format("{0,-30}||{1,-30}||{2,-30}", "Nombre", "Direccion", "Email"));
-            Console.WriteLine(imprimir.GenerarImpresion(proveedores.Listar()));
-        }
-
-        public void ImprimirConID()
-        {
-            Console.Clear();
-            Impresion imprimir = new Impresion();
             Console.WriteLine(String.Format("{0,-6}||{1,-30}||{2,-30}||{3,-30}", "ID", "Nombre", "Direccion", "Email"));
-            Console.WriteLine(imprimir.GenerarImpresion(proveedores.ListarConID()));
+            Console.WriteLine(imprimir.GenerarImpresion(proveedores.Listar()));
         }
     }
 }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ObrasSanitarias.Controladores
 {
-    internal class ControlLicitaciones : IDisposable
+    internal class ControlLicitaciones
     {
         Licitaciones licitaciones = new Licitaciones();
         ControlTipeo ctrlTipeo = new ControlTipeo();
@@ -44,26 +44,38 @@ namespace ObrasSanitarias.Controladores
             };
             licitaciones.Agregar(licitacion);
         }
-
-        public void Dispose()
+        public void EditarObra()
         {
-            throw new NotImplementedException();
+            Console.Clear();
+            Imprimir();
+            Console.WriteLine("################################################");
+            Console.Write("Ingrese el ID de la licitacion a modificar: ");
+            int id = Convert.ToInt32(Console.ReadLine());
+            Console.Write("Ingrese el tipo de obra de licitacion: ");
+            string obra = Console.ReadLine();
+            licitaciones.EditarObra(id, obra);
+            Console.ReadKey();
         }
+        public void Eliminar()
+        {
+            Console.Clear();
+            Imprimir();
+            Console.WriteLine("################################################");
+            Console.Write("Ingrese el ID de la licitacion a borrar: ");
+            int id = Convert.ToInt32(Console.ReadLine());
+            licitaciones.Eliminar(id);
+      
+        }
+        
 
         public void Imprimir()
         {
             Console.Clear();
             Impresion imprimir = new Impresion();
-            Console.WriteLine(String.Format("{0,-30}||{1,-32}||{2,-30}||{3,-30}||{4,-15}", "Tipo de Obra", "Presupuesto Estimado", "Ubicacion", "Fecha Limite", "Estado"));
-            Console.WriteLine(imprimir.GenerarImpresion(licitaciones.ListarConID()));
+            Console.WriteLine(String.Format("||{0,-6}||{1,-30}||{2,-22}||{3,-20}||{4,-15}||{5,-10}||", "ID", "Tipo de Obra", "Presupuesto Estimado", "Ubicacion", "Fecha Limite", "Estado"));
+            Console.WriteLine(imprimir.GenerarImpresion(licitaciones.Listar()));
         }
-        public void ImprimirConID()
-        {
-            Console.Clear();
-            Impresion imprimir = new Impresion();
-            Console.WriteLine(String.Format("{0,-6}||{1,-32}||{2,-30}||{3,-30}||{4,-30}||{5,-15}", "ID", "Tipo de Obra", "Presupuesto Estimado", "Ubicacion", "Fecha Limite", "Estado"));
-            Console.WriteLine(imprimir.GenerarImpresion(licitaciones.ListarConID()));
-        }
+
         
     }
 }

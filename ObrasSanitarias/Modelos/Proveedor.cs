@@ -29,10 +29,6 @@ namespace ObrasSanitarias.Modelos
 
         public override string ToString()
         {
-            return String.Format("{0,-30}||{1,-30}||{2,-30}", nombre, direccion, email);
-        }
-        public string ToStringConID()
-        {
             return String.Format("{0,-6}||{1,-30}||{2,-30}||{3,-30}", ID, nombre, direccion, email);
         }
     }
