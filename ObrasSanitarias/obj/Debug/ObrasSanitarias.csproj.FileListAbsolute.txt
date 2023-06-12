@@ -22,3 +22,11 @@ C:\Users\ferco\OneDrive\Documentos\GitHub\ObrasSanitarias\ObrasSanitarias\obj\De
 C:\Users\ferco\OneDrive\Documentos\GitHub\ObrasSanitarias\ObrasSanitarias\obj\Debug\ObrasSanitarias.csproj.CoreCompileInputs.cache
 C:\Users\ferco\OneDrive\Documentos\GitHub\ObrasSanitarias\ObrasSanitarias\obj\Debug\ObrasSanitarias.exe
 C:\Users\ferco\OneDrive\Documentos\GitHub\ObrasSanitarias\ObrasSanitarias\obj\Debug\ObrasSanitarias.pdb
+C:\Users\hilet.HILET\Downloads\ObrasSanitarias-Actualizaciones\ObrasSanitarias\bin\Debug\ObrasSanitarias.exe.config
+C:\Users\hilet.HILET\Downloads\ObrasSanitarias-Actualizaciones\ObrasSanitarias\bin\Debug\ObrasSanitarias.exe
+C:\Users\hilet.HILET\Downloads\ObrasSanitarias-Actualizaciones\ObrasSanitarias\bin\Debug\ObrasSanitarias.pdb
+C:\Users\hilet.HILET\Downloads\ObrasSanitarias-Actualizaciones\ObrasSanitarias\obj\Debug\ObrasSanitarias.csproj.AssemblyReference.cache
+C:\Users\hilet.HILET\Downloads\ObrasSanitarias-Actualizaciones\ObrasSanitarias\obj\Debug\ObrasSanitarias.csproj.SuggestedBindingRedirects.cache
+C:\Users\hilet.HILET\Downloads\ObrasSanitarias-Actualizaciones\ObrasSanitarias\obj\Debug\ObrasSanitarias.csproj.CoreCompileInputs.cache
+C:\Users\hilet.HILET\Downloads\ObrasSanitarias-Actualizaciones\ObrasSanitarias\obj\Debug\ObrasSanitarias.exe
+C:\Users\hilet.HILET\Downloads\ObrasSanitarias-Actualizaciones\ObrasSanitarias\obj\Debug\ObrasSanitarias.pdb

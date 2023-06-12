@@ -16,7 +16,6 @@ namespace ObrasSanitarias.Controladores
         public void Agregar()
         {
             Console.Clear();
-
             ControlLicitaciones ctrlLicitaciones = new ControlLicitaciones();
             Console.WriteLine("Licitaciones:");
             ctrlLicitaciones.Imprimir();
@@ -41,6 +40,19 @@ namespace ObrasSanitarias.Controladores
             Console.Write("Ingrese el ID de la propuesta a borrar: ");
             int id = Convert.ToInt32(Console.ReadLine());
             propuestas.Eliminar(id);
+        }
+        public void EditarProveedor()
+        {
+            Console.Clear();
+            Imprimir();
+            Console.WriteLine("################################################");
+            Console.Write("Ingrese el ID de la propuesta a la que quiere modificar el proveedor: ");
+            int id = Convert.ToInt32(Console.ReadLine());
+            ControlProveedores ctrlProveedores = new ControlProveedores();
+            ctrlProveedores.Imprimir();
+            Console.Write("Ingrese el ID del nuevo proveedor: ");
+            int id_proveedor = Convert.ToInt32(Console.ReadLine());
+            propuestas.EditarProveedor(id,id_proveedor);
         }
         public void Imprimir()
         {

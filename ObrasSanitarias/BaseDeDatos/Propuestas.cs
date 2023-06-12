@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ObrasSanitarias.BaseDeDatos
 {
-    internal class Propuestas : IAgregarListar<Propuesta>
+    internal class Propuestas
     {
         #region Metodos Publicos
         public void Agregar(int IDLicitacion, int IDProveedor, string fechaPresentacion, double monto)
@@ -41,9 +41,30 @@ namespace ObrasSanitarias.BaseDeDatos
             }
         }
 
-        public void Agregar(Propuesta t)
+        public void EditarProveedor(int id, int id_proveedor)
         {
-            throw new NotImplementedException();
+            using (Conexiones conexiones = new Conexiones())
+            {
+                try
+                {
+                    conexiones.Abrir();
+                    using (SqlCommand cmd = new SqlCommand(Sql_EditarProveedor(), conexiones.Conexion()))
+                    {
+                        cmd.Parameters.Add("@id", SqlDbType.Int).Value = id;
+                        cmd.Parameters.Add("@id_proveedor", SqlDbType.Int).Value = id_proveedor;
+                        cmd.ExecuteNonQuery();
+                    }
+                    conexiones.Cerrar();
+                    Console.Clear();
+                }
+                catch (Exception ex)
+                {
+                    conexiones.Cerrar();
+                    Console.Clear();
+                    Console.WriteLine(ex.ToString());
+                    Console.ReadKey();
+                }
+            }
         }
         public void Eliminar(int id)
         {
@@ -104,6 +125,10 @@ namespace ObrasSanitarias.BaseDeDatos
         #endregion
 
         #region Metodos Privados
+        private string Sql_EditarProveedor()
+        {
+            return "UPDATE Propuestas SET ID_Proveedor = @id_proveedor WHERE ID = @id";
+        }
         private string Sql_Eliminar()
         {
             return "DELETE FROM Propuestas WHERE ID=@id";
@@ -124,12 +149,12 @@ namespace ObrasSanitarias.BaseDeDatos
                    p.Nombre,
                    p.Direccion,
                    p.Email,
-                   FechaPresentacion,
-                   Monto
+                   prop.FechaPresentacion,
+                   prop.Monto
                    FROM
                    Propuestas AS prop
-                   INNER JOIN Licitaciones AS l ON l.ID = prop.ID
-                   INNER JOIN Proveedores AS p ON p.ID = prop.ID";
+                   INNER JOIN Licitaciones AS l ON prop.ID_Licitacion = l.ID
+                   INNER JOIN Proveedores AS p ON prop.ID_Proveedor = p.ID";
         }
         #endregion
     }

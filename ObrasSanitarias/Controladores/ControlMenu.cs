@@ -99,6 +99,7 @@ namespace ObrasSanitarias.Controladores
                 Console.WriteLine("1- Agregar Propuesta.");
                 Console.WriteLine("2- Mostrar Propuestas.");
                 Console.WriteLine("3- Eliminar Propuesta.");
+                Console.WriteLine("4- Modificar Propuesta. (Proveedor)");
                 Console.WriteLine("0- Salir.");
                 int op = Convert.ToInt32(Console.ReadLine());
 
@@ -109,6 +110,7 @@ namespace ObrasSanitarias.Controladores
                     case 1: { ctrlPropuestas.Agregar(); } break;
                     case 2: { ctrlPropuestas.Imprimir(); } break;
                     case 3: { ctrlPropuestas.Eliminar(); } break;
+                    case 4: { ctrlPropuestas.EditarProveedor(); } break;
 
                 }
             } while (salir == true);
