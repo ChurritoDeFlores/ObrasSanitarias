@@ -75,7 +75,10 @@ namespace ObrasSanitarias.Controladores
             Console.WriteLine(String.Format("||{0,-6}||{1,-30}||{2,-22}||{3,-20}||{4,-15}||{5,-10}||", "ID", "Tipo de Obra", "Presupuesto Estimado", "Ubicacion", "Fecha Limite", "Estado"));
             Console.WriteLine(imprimir.GenerarImpresion(licitaciones.Listar()));
         }
-
+        public List<int> IDs()
+        {
+            return licitaciones.IDs();
+        }
         
     }
 }

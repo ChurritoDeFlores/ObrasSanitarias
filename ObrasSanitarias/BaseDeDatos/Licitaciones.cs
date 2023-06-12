@@ -102,6 +102,26 @@ namespace ObrasSanitarias.BaseDeDatos
             }
             return licitaciones;
         }
+        public List<int> IDs()
+        {
+            List<int> ids = new List<int>();
+            using (Conexiones conexiones = new Conexiones())
+            {
+                conexiones.Abrir();
+
+                using (SqlCommand cmd = new SqlCommand(Sql_IDs(), conexiones.Conexion()))
+                {
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            ids.Add(reader.GetInt32(reader.GetOrdinal("ID")));
+                        }
+                    }
+                }
+            }
+            return ids;
+        }
         internal void EditarObra(int id, string obra)
         {
             using (Conexiones conexiones = new Conexiones())
@@ -127,6 +147,7 @@ namespace ObrasSanitarias.BaseDeDatos
                 }
             }
         }
+
         #region Querys
         private string Sql_Agregar()
         {
@@ -135,6 +156,10 @@ namespace ObrasSanitarias.BaseDeDatos
         private string Sql_Listar()
         {
             return "SELECT * FROM Licitaciones";
+        }
+        private string Sql_IDs()
+        {
+            return "SELECT ID FROM Licitaciones";
         }
         private string Sql_EditarObra()
         {

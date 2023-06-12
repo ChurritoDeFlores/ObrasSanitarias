@@ -45,6 +45,32 @@ namespace ObrasSanitarias.BaseDeDatos
         {
             throw new NotImplementedException();
         }
+        public void Eliminar(int id)
+        {
+            using (Conexiones conexiones = new Conexiones())
+            {
+                try
+                {
+                    conexiones.Abrir();
+                    using (SqlCommand cmd = new SqlCommand(Sql_Eliminar(), conexiones.Conexion()))
+                    {
+                        cmd.Parameters.Add("@id", SqlDbType.Int).Value = id;
+                        cmd.ExecuteNonQuery();
+                    }
+                    conexiones.Cerrar();
+                    Console.Clear();
+                    Console.WriteLine("Propuesta eliminada");
+                    Console.ReadKey();
+                }
+                catch (Exception ex)
+                {
+                    conexiones.Cerrar();
+                    Console.Clear();
+                    Console.WriteLine(ex.ToString());
+                    Console.ReadKey();
+                }
+            }
+        }
 
         public List<Propuesta> Listar()
         {
@@ -78,6 +104,10 @@ namespace ObrasSanitarias.BaseDeDatos
         #endregion
 
         #region Metodos Privados
+        private string Sql_Eliminar()
+        {
+            return "DELETE FROM Propuestas WHERE ID=@id";
+        }
         private string SQLquery_INSERT()
         {
             return "INSERT INTO Propuestas Values(@ID_Licitaciones,@ID_Proveedor,@FechaPresentacion,@Monto)";
