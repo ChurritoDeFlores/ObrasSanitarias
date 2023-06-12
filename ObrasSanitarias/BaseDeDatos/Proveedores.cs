@@ -2,25 +2,19 @@
 using ObrasSanitarias.Modelos;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.SqlClient;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Runtime.Remoting.Messaging;
+using System.Security.Cryptography.X509Certificates;
 
 namespace ObrasSanitarias.BaseDeDatos
 {
-    internal class Licitaciones : IAgregarListar<Licitacion>
+    internal class Proveedores : IAgregarListar<Proveedor>, IExiste<Proveedor>
     {
-        /*
-            El uso de using en los metodos que hacen consultas a la base de datos son una buena practica,
-            te aseguran de que los recursos sean liberados correctamente al finalizar el bloque,
-            hace que el codigo sea mas claro y legible, ya que la intención de administrar y liberar los recursos se vuelve explícita.
-            Al encapsular la instancia en un bloque using, indicas claramente que la instancia se utilizará solo dentro de ese bloque
-            y se liberará automáticamente al finalizar. Esto es ideal para las conexiones a la bases de datos
-        */
-        
-        public void Agregar(Licitacion l)
+        public void Agregar(Proveedor p)
         {
             using (Conexiones conexiones = new Conexiones()) // Para poder hacer esto, la clase debe implementar la interfaz IDisposable
             {
@@ -30,27 +24,25 @@ namespace ObrasSanitarias.BaseDeDatos
                     using (SqlCommand cmd = new SqlCommand(Sql_Agregar(), conexiones.Conexion()))
                     {
                         // El uso de .Add, ayuda a la conversion de datos y evita errores con éste, en comparacion con el metodo .AddWithValues
-                        cmd.Parameters.Add("@tipoDeObra",SqlDbType.VarChar).Value=l.tipoDeObra;
-                        cmd.Parameters.Add("@presupuestoEstimado", SqlDbType.Decimal).Value = l.presupuestoEstimado;
-                        cmd.Parameters.Add("@ubicacion", SqlDbType.VarChar).Value = l.ubicacion;
-                        cmd.Parameters.Add("@fechaLimite", SqlDbType.VarChar).Value = l.fechaLimite;
-                        cmd.Parameters.Add("@estado", SqlDbType.VarChar).Value = l.estado;
+                        cmd.Parameters.Add("@nombre", SqlDbType.VarChar).Value = p.nombre;
+                        cmd.Parameters.Add("@direccion", SqlDbType.VarChar).Value = p.direccion;
+                        cmd.Parameters.Add("@email", SqlDbType.VarChar).Value = p.email;
                         cmd.ExecuteNonQuery();
-
                     }
                     //conexiones.Cerrar(); // No seria necesario utilizando el using 
-                    Console.Clear();
-                    Console.WriteLine("Licitacion Agregada");
                 }
                 catch (Exception ex)
                 {
                     //conexiones.Cerrar(); // No seria necesario utilizando el using
                     Console.Clear();
                     Console.WriteLine(ex.ToString());
+                    Console.ReadKey();
+
                 }
             }
         }
-        public void Eliminar(int id_l)
+
+        public void Eliminar(int id_p)
         {
             using (Conexiones conexiones = new Conexiones())
             {
@@ -59,80 +51,85 @@ namespace ObrasSanitarias.BaseDeDatos
                     conexiones.Abrir();
                     using (SqlCommand cmd = new SqlCommand(Sql_Eliminar(), conexiones.Conexion()))
                     {
-                        cmd.Parameters.Add("@id",SqlDbType.Int).Value=id_l;
+                        cmd.Parameters.Add("@id", SqlDbType.Int).Value = id_p;
                         cmd.ExecuteNonQuery();
+
                     }
                     conexiones.Cerrar();
                     Console.Clear();
-                    Console.WriteLine("Licitacion Eliminada");
                 }
                 catch (Exception ex)
                 {
+                    conexiones.Cerrar();
                     Console.Clear();
                     Console.WriteLine(ex.ToString());
+                    Console.ReadKey();
                 }
             }
         }
-        public List<Licitacion> Listar()
+
+        public bool Existe(Proveedor p)
         {
-            List<Licitacion> licitaciones = new List<Licitacion>();
             using (Conexiones conexiones = new Conexiones())
             {
                 conexiones.Abrir();
+                string query = "SELECT * FROM Proveedores WHERE Nombre = @nombre";
+                using (SqlCommand cmd = new SqlCommand(query, conexiones.Conexion()))
+                {
+                    cmd.Parameters.Add("@nombre", SqlDbType.VarChar).Value = p.nombre;
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            Console.WriteLine("El proveedor ya se encuentra registrado");
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
+        }
 
+        public List<Proveedor> Listar()
+        {
+            List<Proveedor> proveedores = new List<Proveedor>();
+            using (Conexiones conexiones = new Conexiones())
+            {
+                conexiones.Abrir();
                 using (SqlCommand cmd = new SqlCommand(Sql_Listar(), conexiones.Conexion()))
                 {
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
                         while (reader.Read())
                         {
-                            Licitacion licitacion = new Licitacion
+                            Proveedor proveedor = new Proveedor
                             {
+                                // reader.GetTipo(indice) => me da el dato que hay en la columna en la posicion indice.
+                                // reader.GetOrdinal("Nombre de columna") => me da el valor del indice, donde la columna se llama "Nombre de columna".
                                 ID = reader.GetInt32(reader.GetOrdinal("ID")),
-                                tipoDeObra = reader.GetString(reader.GetOrdinal("TipoDeObra")),
-                                presupuestoEstimado = reader.GetDouble(reader.GetOrdinal("PresupuestoEstimado")),
-                                ubicacion = reader.GetString(reader.GetOrdinal("Ubicacion")),
-                                fechaLimite = reader.GetString(reader.GetOrdinal("FechaLimite")),
-                                estado = reader.GetString(reader.GetOrdinal("Estado")),
+                                nombre = reader.GetString(reader.GetOrdinal("Nombre")),
+                                direccion = reader.GetString(reader.GetOrdinal("Direccion")),
+                                email = reader.GetString(reader.GetOrdinal("Email")),
                             };
-                            licitaciones.Add(licitacion);
+                            proveedores.Add(proveedor);
                         }
                     }
                 }
+                return proveedores;
             }
-            return licitaciones;
         }
-        public List<int> IDs()
-        {
-            List<int> ids = new List<int>();
-            using (Conexiones conexiones = new Conexiones())
-            {
-                conexiones.Abrir();
 
-                using (SqlCommand cmd = new SqlCommand(Sql_IDs(), conexiones.Conexion()))
-                {
-                    using (SqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            ids.Add(reader.GetInt32(reader.GetOrdinal("ID")));
-                        }
-                    }
-                }
-            }
-            return ids;
-        }
-        internal void EditarObra(int id, string obra)
+        public void EditarNombre(int id, string nombre)
         {
             using (Conexiones conexiones = new Conexiones())
             {
                 try
                 {
                     conexiones.Abrir();
-                    using (SqlCommand cmd = new SqlCommand(Sql_EditarObra(), conexiones.Conexion()))
+                    using (SqlCommand cmd = new SqlCommand(Sql_EditarNombre(), conexiones.Conexion()))
                     {
                         cmd.Parameters.Add("@id", SqlDbType.Int).Value = id;
-                        cmd.Parameters.Add("@obra", SqlDbType.VarChar).Value = obra;
+                        cmd.Parameters.Add("@nombre", SqlDbType.VarChar).Value = nombre;
                         cmd.ExecuteNonQuery();
                     }
                     conexiones.Cerrar();
@@ -151,23 +148,22 @@ namespace ObrasSanitarias.BaseDeDatos
         #region Querys
         private string Sql_Agregar()
         {
-            return "INSERT INTO Licitaciones VALUES (@tipoDeObra,@presupuestoEstimado,@ubicacion,@fechaLimite,@estado)";
+            return "INSERT INTO Proveedores VALUES (@nombre,@direccion,@email)";
         }
+
         private string Sql_Listar()
         {
-            return "SELECT * FROM Licitaciones";
+            return "SELECT * FROM Proveedores";
         }
-        private string Sql_IDs()
+
+        private string Sql_EditarNombre()
         {
-            return "SELECT ID FROM Licitaciones";
+            return "UPDATE Proveedores SET Nombre = @nombre WHERE ID = @id";
         }
-        private string Sql_EditarObra()
-        {
-            return "UPDATE Licitaciones SET TipoDeObra = @obra WHERE ID = @id";
-        }
+
         private string Sql_Eliminar()
         {
-            return "DELETE FROM Licitaciones WHERE ID=@id";
+            return "DELETE FROM Proveedores WHERE ID=@id";
         }
         #endregion
     }
